@@ -1,9 +1,8 @@
-
 # DFIR Case Study — Byte Doctor Reyes / Defense Evasion
 
-*Date:* 2025-04-08  
+*Date:* 2025-19-09 
 *Role:* Incident Responder  
-*Artifacts used:* Powershell.xml, Sysmon.xml, Security.evtx, System.evtx
+*Artifacts used:* Microsoft-Windows-Powershell-Operational.evtx, Microsoft-Windows-Sysmon-Operational.evtx, Microsoft-Windows-Powershell.evtx
 
 ---
 
@@ -22,6 +21,9 @@ HKLM\SYSTEM\CurrentControlSet\Control\LSA
 ```bash
 grep -n "LSA" Sysmon.xml
 
+```
+
+![Q1 Screenshot](images/Screenshot_2025-09-18_19-11-00.png)
 
  ## Q2 — First command to disable Windows Defender
 
@@ -34,6 +36,9 @@ Set-MpPreference -DisableIOAVProtection $true -DisableEmailScanning $true -Disab
 ```bash
 grep -n "Set-MpPreference" Powershell.xml
 
+```
+
+![Q2 Screenshot](images/Screenshot_2025-09-18_19-12-04.png)
 
 
 ## Q3 — AMSI patching
@@ -47,7 +52,9 @@ grep -n "Set-MpPreference" Powershell.xml
 ```bash
 grep -inE 'amsi|AmsiScanBuffer|AmsiOpenSession|EncodedCommand|GetProcAddress|VirtualProtect' Powershell.xml | sed -n '1,200p'
 
+```
 
+![Q3 Screenshot](images/Screenshot_2025-09-18_19-14-50.png)
 
 ## Q4 — Safe Mode reboot
 
@@ -59,6 +66,10 @@ grep -inE 'amsi|AmsiScanBuffer|AmsiOpenSession|EncodedCommand|GetProcAddress|Vir
 *Command run:*
 ```bash
 grep -n "safeboot" Sysmon.xml
+
+```
+
+![Q4 Screenshot](images/Screenshot_2025-09-18_19-15-31.png)
 
 
 ## Q5 — Disable PowerShell history
@@ -72,3 +83,6 @@ Set-PSReadlineOption -HistorySaveStyle SaveNothing
 ```bash
 grep -n "Set-PSReadlineOption" Powershell.xml
 
+```
+
+![Q5 Screenshot](images/Screenshot_2025-09-18_19-16-02.png)
